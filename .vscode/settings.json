@@ -11,6 +11,7 @@
   "emmet.includeLanguages": {
     "rust": "html",
   },
+  "rust-analyzer.cargo.features": "all",
   "tailwindCSS.includeLanguages": {
     "rust": "html",
   },
