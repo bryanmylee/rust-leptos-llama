@@ -8,14 +8,8 @@ pub fn App(cx: Scope) -> impl IntoView {
     provide_meta_context(cx);
 
     view! { cx,
-        // injects a stylesheet into the document <head>
-        // id=leptos means cargo-leptos will hot-reload this stylesheet
         <Stylesheet id="leptos" href="/pkg/leptos_start.css"/>
-
-        // sets the document title
         <Title text="Welcome to Leptos"/>
-
-        // content for this welcome page
         <Router>
             <main>
                 <Routes>
@@ -35,7 +29,7 @@ fn HomePage(cx: Scope) -> impl IntoView {
     let on_click = move |_| set_count.update(|count| *count += 1);
 
     view! { cx,
-        <h1>"Welcome to Leptos!"</h1>
+        <h1 class="font-semibold text-lg">"Welcome to Leptos!"</h1>
         <button on:click=on_click>"Click Me: " {count}</button>
     }
 }
@@ -44,11 +38,9 @@ fn HomePage(cx: Scope) -> impl IntoView {
 #[component]
 fn NotFound(cx: Scope) -> impl IntoView {
     // set an HTTP status code 404
-    // this is feature gated because it can only be done during
-    // initial server-side rendering
-    // if you navigate to the 404 page subsequently, the status
-    // code will not be set because there is not a new HTTP request
-    // to the server
+    // this is feature gated because it can only be done during initial server-side rendering if
+    // you navigate to the 404 page subsequently, the status code will not be set because there is
+    // not a new HTTP request to the server
     #[cfg(feature = "ssr")]
     {
         // this can be done inline because it's synchronous
@@ -57,7 +49,5 @@ fn NotFound(cx: Scope) -> impl IntoView {
         resp.set_status(actix_web::http::StatusCode::NOT_FOUND);
     }
 
-    view! { cx,
-        <h1>"Not Found"</h1>
-    }
+    view! { cx, <h1>"Not Found"</h1> }
 }

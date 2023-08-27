@@ -1,0 +1,17 @@
+{
+  "[rust]": {
+    "editor.defaultFormatter": "bram209.leptos-language-server"
+  },
+  "css.validate": false,
+  "editor.quickSuggestions": {
+    "other": "on",
+    "comments": "on",
+    "strings": "on"
+  },
+  "emmet.includeLanguages": {
+    "rust": "html",
+  },
+  "tailwindCSS.includeLanguages": {
+    "rust": "html",
+  },
+}
