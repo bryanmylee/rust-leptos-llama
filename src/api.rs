@@ -9,7 +9,7 @@ use leptos::*;
 // side to automatically make an HTTP request to this function.
 //
 // The created function will return a type that matches this function's signature.
-#[server(Converse "/api/converse")]
+#[server(Converse "/api")]
 pub async fn converse(cx: Scope, conversation: Conversation) -> Result<String, ServerFnError> {
     use actix_web::dev::ConnectionInfo;
     use actix_web::web::Data;

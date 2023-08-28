@@ -63,7 +63,6 @@ async fn favicon(
 cfg_if! {
 if #[cfg(feature = "ssr")] {
     use llm::models::Llama;
-    use actix_web::*;
     use std::env;
     use dotenv::dotenv;
 
