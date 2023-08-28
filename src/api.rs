@@ -68,29 +68,29 @@ pub async fn converse(cx: Scope, conversation: Conversation) -> Result<String, S
 
     let mut session = model.start_session(Default::default());
 
-//     session
-//         .infer(
-//             model.as_ref(),
-//             &mut rng,
-//             &llm::InferenceRequest {
-//                 prompt: format!(
-//                     "\
-// {persona}
-// {history}
-// {assistant_name}:"
-//                 )
-//                 .as_str()
-//                 .into(),
-//                 parameters: &llm::InferenceParameters::default(),
-//                 play_back_previous_tokens: false,
-//                 maximum_token_count: None,
-//             },
-//             &mut Default::default(),
-//             inference_callback(String::from(user_name), &mut buffer, &mut result),
-//         )
-//         .unwrap_or_else(|err| panic!("{err}"));
+    session
+        .infer(
+            model.as_ref(),
+            &mut rng,
+            &llm::InferenceRequest {
+                prompt: format!(
+                    "\
+{persona}
+{history}
+{assistant_name}:"
+                )
+                .as_str()
+                .into(),
+                parameters: &llm::InferenceParameters::default(),
+                play_back_previous_tokens: false,
+                maximum_token_count: None,
+            },
+            &mut Default::default(),
+            inference_callback(String::from(user_name), &mut buffer, &mut result),
+        )
+        .unwrap_or_else(|err| panic!("{err}"));
 
-    Ok("No".to_string())
+    Ok(result)
 }
 
 cfg_if! {
