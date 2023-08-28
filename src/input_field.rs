@@ -19,15 +19,16 @@ pub fn InputField(
     };
 
     view! { cx,
-        <form on:submit=handle_submit class="p-4 gap-2 flex justify-center items-center bg-white">
+        <form on:submit=handle_submit class="sticky bottom-0 p-4 gap-4 flex justify-center items-center">
             <input
                 type="text"
                 node_ref=input_ref
-                class="w-full border-2 border-gray-200 rounded-lg p-2 focus-visible:border-transparent focus-visible:ring ring-blue-500 focus:outline-none"
+                class="w-full rounded-lg px-4 py-3 focus-visible:border-transparent focus-visible:ring ring-blue-500 focus:outline-none shadow-lg border border-gray-200"
+                placeholder="Chat with us!"
             />
             <button
                 type="submit"
-                class="bg-blue-500 text-white rounded-full flex-shrink-0 w-10 h-10 flex justify-center items-center focus-visible:ring ring-blue-500 ring-offset-2 focus:outline-none"
+                class="bg-blue-500 text-white rounded-full flex-shrink-0 w-12 h-12 flex justify-center items-center focus-visible:ring ring-blue-500 ring-offset-2 focus:outline-none shadow-md shadow-blue-500/50"
             >
                 "→"
             </button>

@@ -43,8 +43,6 @@ pub async fn converse(cx: Scope, conversation: Conversation) -> Result<String, S
     let initial_prompt = format!(
         "\
 {assistant_name}: Hello - How may I help you today?
-{user_name}: What is the capital of France?
-{assistant_name}: Paris is the capital of France.
 "
     );
     let next_prompts = conversation

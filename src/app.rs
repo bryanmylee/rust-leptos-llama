@@ -62,7 +62,11 @@ fn HomePage(cx: Scope) -> impl IntoView {
     view! { cx,
         <div class="flex flex-col h-screen">
             <ChatArea conversation/>
-            <InputField on_send=Box::new(move |text| send.dispatch(text))/>
+            <InputField on_send=Box::new(move |text| {
+                if !text.is_empty() {
+                    send.dispatch(text)
+                }
+            })/>
         </div>
     }
 }
