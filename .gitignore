@@ -17,3 +17,5 @@ style/app.css
 
 # Model file
 Wizard-Vicuna-7B-Uncensored.ggmlv3.q8_0.bin
+
+.env
