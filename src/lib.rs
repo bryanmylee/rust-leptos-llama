@@ -2,7 +2,9 @@
 
 pub mod api;
 pub mod app;
+pub mod chat_area;
 pub mod conversation;
+pub mod input_field;
 
 use cfg_if::cfg_if;
 

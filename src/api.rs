@@ -1,7 +1,7 @@
 use crate::conversation::Conversation;
+use cfg_if::cfg_if;
 use itertools::Itertools;
 use leptos::*;
-use rand;
 
 // Creates a server-side API with logic that only runs on server.
 //
@@ -17,6 +17,7 @@ pub async fn converse(cx: Scope, conversation: Conversation) -> Result<String, S
     /// server-side logic.
     use leptos_actix::extract;
     use llm::models::Llama;
+    use rand;
 
     // The actix web framework is the tool that invokes our server side logic, so we cannot
     // explicitly define what we want to pass into our function.
@@ -67,33 +68,33 @@ pub async fn converse(cx: Scope, conversation: Conversation) -> Result<String, S
 
     let mut session = model.start_session(Default::default());
 
-    session
-        .infer(
-            model.as_ref(),
-            &mut rng,
-            &llm::InferenceRequest {
-                prompt: format!(
-                    "\
-{persona}
-{history}
-{assistant_name}:"
-                )
-                .as_str()
-                .into(),
-                parameters: &llm::InferenceParameters::default(),
-                play_back_previous_tokens: false,
-                maximum_token_count: None,
-            },
-            &mut Default::default(),
-            inference_callback(String::from(user_name), &mut buffer, &mut result),
-        )
-        .unwrap_or_else(|err| panic!("{err}"));
+//     session
+//         .infer(
+//             model.as_ref(),
+//             &mut rng,
+//             &llm::InferenceRequest {
+//                 prompt: format!(
+//                     "\
+// {persona}
+// {history}
+// {assistant_name}:"
+//                 )
+//                 .as_str()
+//                 .into(),
+//                 parameters: &llm::InferenceParameters::default(),
+//                 play_back_previous_tokens: false,
+//                 maximum_token_count: None,
+//             },
+//             &mut Default::default(),
+//             inference_callback(String::from(user_name), &mut buffer, &mut result),
+//         )
+//         .unwrap_or_else(|err| panic!("{err}"));
 
-    Ok(result)
+    Ok("No".to_string())
 }
 
-cfg_if::cfg_if! {
-    if #[cfg(feature = "ssr")] {
+cfg_if! {
+if #[cfg(feature = "ssr")] {
     fn inference_callback<'a>(
         stop_sequence: String,
         buf: &'a mut String,
@@ -125,5 +126,5 @@ cfg_if::cfg_if! {
             _ => Ok(Continue),
         }
     }
-    }
+}
 }

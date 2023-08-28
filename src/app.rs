@@ -2,6 +2,11 @@ use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
 
+use crate::api::converse;
+use crate::chat_area::ChatArea;
+use crate::conversation::Conversation;
+use crate::input_field::InputField;
+
 #[component]
 pub fn App(cx: Scope) -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.
@@ -21,20 +26,49 @@ pub fn App(cx: Scope) -> impl IntoView {
     }
 }
 
-/// Renders the home page of your application.
 #[component]
 fn HomePage(cx: Scope) -> impl IntoView {
-    // Creates a reactive value to update the button
-    let (count, set_count) = create_signal(cx, 0);
-    let on_click = move |_| set_count.update(|count| *count += 1);
+    let (conversation, set_conversation) = create_signal(cx, Conversation::new());
+
+    // Creates an `Action` to synchronize the async imperative function to the synchronous reactive
+    // system.
+    //
+    // `Action` wraps three signals to do so:
+    // 1. an input signal that is fired every time the user triggers the function
+    // 2. a value signal that is fired when the async function resolves
+    // 3. a pending signal indicating the loading status of the function
+    let send = create_action(cx, move |new_message: &String| {
+        set_conversation.update(move |convo| {
+            convo.add_user_message(new_message);
+        });
+        
+        log!("{:?}", conversation());
+
+        converse(cx, conversation())
+    });
+
+    create_effect(cx, move |_| {
+        if let Some(_) = send.input()() {
+            set_conversation.update(move |convo| convo.add_assistant_waiting());
+        }
+    });
+
+    create_effect(cx, move |_| {
+        if let Some(Ok(response)) = send.value()() {
+            set_conversation.update(move |convo| {
+                convo.resolve_assistant_waiting(&response);
+            });
+        }
+    });
 
     view! { cx,
-        <h1 class="font-semibold text-lg">"Welcome to Leptos!"</h1>
-        <button on:click=on_click>"Click Me: " {count}</button>
+        <div class="flex flex-col h-screen">
+            <ChatArea conversation/>
+            <InputField on_send=Box::new(move |text| send.dispatch(text))/>
+        </div>
     }
 }
 
-/// 404 - Not Found
 #[component]
 fn NotFound(cx: Scope) -> impl IntoView {
     // set an HTTP status code 404
@@ -49,5 +83,11 @@ fn NotFound(cx: Scope) -> impl IntoView {
         resp.set_status(actix_web::http::StatusCode::NOT_FOUND);
     }
 
-    view! { cx, <h1>"Not Found"</h1> }
+    view! { cx,
+        <div class="min-h-screen flex justify-center items-center">
+            <h1 class="font-semibold text-2xl">
+                Page not found
+            </h1>
+        </div>
+    }
 }

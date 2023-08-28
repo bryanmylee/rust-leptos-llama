@@ -10,9 +10,14 @@
   },
   "emmet.includeLanguages": {
     "rust": "html",
+    "*.rs": "html",
+  },
+  "files.associations": {
+    "*.rs": "rust"
   },
   "rust-analyzer.cargo.features": "all",
   "tailwindCSS.includeLanguages": {
     "rust": "html",
+    "*.rs": "html",
   },
 }
