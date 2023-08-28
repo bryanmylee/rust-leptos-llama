@@ -42,8 +42,6 @@ fn HomePage(cx: Scope) -> impl IntoView {
             convo.add_user_message(new_message);
         });
         
-        log!("{:?}", conversation());
-
         converse(cx, conversation())
     });
 
