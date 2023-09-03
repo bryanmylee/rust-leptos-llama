@@ -2,7 +2,7 @@ use std::cell::RefCell;
 
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
 pub struct Conversation {
     latest_message_id: RefCell<i32>,
     pub messages: Vec<Message>,
@@ -52,7 +52,7 @@ impl Conversation {
     }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
 pub struct Message {
     pub from_user: bool,
     pub text: String,
